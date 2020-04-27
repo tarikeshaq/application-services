@@ -91,6 +91,11 @@ impl Store {
         tx.commit()?;
         Ok(result)
     }
+
+    /// Tears down the store, closing its underlying database connection.
+    pub fn teardown(self) -> Result<()> {
+        self.db.teardown()
+    }
 }
 
 #[cfg(test)]

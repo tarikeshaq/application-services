@@ -9,6 +9,7 @@ use rusqlite::Connection;
 use rusqlite::OpenFlags;
 use sql_support::ConnExt;
 use std::fs;
+use std::mem;
 use std::ops::{Deref, DerefMut};
 use std::path::{Path, PathBuf};
 use url::Url;
@@ -60,6 +61,23 @@ impl StorageDb {
                 }
             }
         }
+    }
+
+    /// Closes the underlying database connection. If this fails, the connection
+    /// will be leaked until shutdown.
+    pub fn teardown(self) -> Result<()> {
+        Ok(self.writer.close().map_err(|(writer, err)| {
+            // Failing to close the connection means we have unfinalized
+            // statements. Since we're likely being called as the app is
+            // shutting down, anyway, we leak the connection here, and rely on
+            // the OS to clean it up. Note that the connection's destructor will
+            // try to close it again, and panic if it can't. This is fine for
+            // the FFI, but not Desktop, which is compiled with
+            // `panic = "abort"`. To avoid a shutdown crash, we use `forget`
+            // instead of `drop`.
+            mem::forget(writer);
+            err
+        })?)
     }
 }
 
