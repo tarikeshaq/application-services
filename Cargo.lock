@@ -3012,6 +3012,7 @@ dependencies = [
  "env_logger",
  "error-support",
  "failure",
+ "ffi-support 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "interrupt-support",
  "lazy_static",
  "libsqlite3-sys",
@@ -3024,6 +3025,17 @@ dependencies = [
  "sql-support",
  "sync-guid",
  "url",
+]
+
+[[package]]
+name = "webext_storage_ffi"
+version = "0.1.0"
+dependencies = [
+ "ffi-support 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "lazy_static",
+ "log 0.4.8",
+ "serde_json",
+ "webext-storage",
 ]
 
 [[package]]
