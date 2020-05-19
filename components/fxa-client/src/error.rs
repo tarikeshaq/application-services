@@ -5,7 +5,6 @@
 use backtrace::Backtrace;
 use rc_crypto::hawk;
 use std::string;
-use thiserror;
 #[derive(Debug, thiserror::Error)]
 pub enum ErrorKind {
     #[error("Unknown OAuth State")]

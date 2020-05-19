@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 use backtrace::Backtrace;
-use thiserror;
 #[derive(Debug, thiserror::Error)]
 pub enum ErrorKind {
     #[error("NSS error: {0}")]
