@@ -7,23 +7,22 @@
 #[macro_export]
 macro_rules! define_error_wrapper {
     ($Kind:ty) => {
-
         pub type Result<T, E = Error> = std::result::Result<T, E>;
-        use std::fmt::{Display, Debug};
         use std::fmt;
+        use std::fmt::{Debug, Display};
         struct Context<T: Display + Sync + 'static> {
             context: T,
-            backtrace: Backtrace
+            backtrace: Backtrace,
         }
-        
+
         impl<T: Display + Send + Sync + 'static> Context<T> {
             fn new(context: T) -> Self {
                 Context {
                     context,
-                    backtrace: Backtrace::new()
+                    backtrace: Backtrace::new(),
                 }
             }
-        
+
             fn backtrace(&self) -> Option<&Backtrace> {
                 Some(&self.backtrace)
             }
@@ -35,7 +34,7 @@ macro_rules! define_error_wrapper {
 
         impl<D: Display + Send + Sync + 'static> Debug for Context<D> {
             fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-                write!(f, "{:?}\n\n{}",self.backtrace, self.context)
+                write!(f, "{:?}\n\n{}", self.backtrace, self.context)
             }
         }
 
@@ -50,7 +49,6 @@ macro_rules! define_error_wrapper {
                 self.0.backtrace()
             }
         }
-
 
         impl Display for Error {
             fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {

@@ -2,10 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-use thiserror;
+use backtrace::Backtrace;
 use rc_crypto::hawk;
 use std::string;
-use backtrace::Backtrace;
+use thiserror;
 #[derive(Debug, thiserror::Error)]
 pub enum ErrorKind {
     #[error("Unknown OAuth State")]
@@ -68,9 +68,7 @@ pub enum ErrorKind {
     #[error("Key {0} had wrong length, got {1}, expected {2}")]
     BadKeyLength(&'static str, usize, usize),
 
-    #[error(
-        "Cannot xor arrays with different lengths: {0} and {1}"
-    )]
+    #[error("Cannot xor arrays with different lengths: {0} and {1}")]
     XorLengthMismatch(usize, usize),
 
     #[error("Audience URL without a host")]
@@ -106,9 +104,7 @@ pub enum ErrorKind {
     #[error("Unsupported command: {0}")]
     UnsupportedCommand(&'static str),
 
-    #[error(
-        "Remote server error: '{code}' '{errno}' '{message}' '{message}' '{info}'",
-    )]
+    #[error("Remote server error: '{code}' '{errno}' '{message}' '{message}' '{info}'")]
     RemoteError {
         code: u64,
         errno: u64,

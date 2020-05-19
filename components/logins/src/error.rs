@@ -16,17 +16,13 @@ pub enum ErrorKind {
     #[error("Invalid login: {0}")]
     InvalidLogin(InvalidLogin),
 
-    #[error(
-        "The `sync_status` column in DB has an illegal value: {0}",
-    )]
+    #[error("The `sync_status` column in DB has an illegal value: {0}")]
     BadSyncStatus(u8),
 
     #[error("A duplicate GUID is present: {0:?}")]
     DuplicateGuid(String),
 
-    #[error(
-        "No record with guid exists (when one was required): {0:?}",
-    )]
+    #[error("No record with guid exists (when one was required): {0:?}")]
     NoSuchRecord(String),
 
     // Fennec import only works on empty logins tables.
@@ -76,7 +72,7 @@ pub enum InvalidLogin {
     EmptyPassword,
     #[error("Login already exists")]
     DuplicateLogin,
-    #[error( "Both `formSubmitUrl` and `httpRealm` are present")]
+    #[error("Both `formSubmitUrl` and `httpRealm` are present")]
     BothTargets,
     #[error("Neither `formSubmitUrl` or `httpRealm` are present")]
     NoTarget,

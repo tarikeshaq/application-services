@@ -1,12 +1,12 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+use backtrace::Backtrace;
 use interrupt_support::Interrupted;
 use rc_crypto::hawk;
 use std::string;
 use std::time::SystemTime;
 use sync15_traits::request::UnacceptableBaseUrl;
-use backtrace::Backtrace;
 /// This enum is to discriminate `StorageHttpError`, and not used as an error.
 #[derive(Debug, Clone)]
 pub enum ErrorResponse {
@@ -29,9 +29,7 @@ pub enum ErrorKind {
     #[error("SHA256 HMAC Mismatch error")]
     HmacMismatch,
 
-    #[error(
-        "HTTP status {0} when requesting a token from the tokenserver",
-    )]
+    #[error("HTTP status {0} when requesting a token from the tokenserver")]
     TokenserverHttpError(u16),
 
     #[error("HTTP storage error: {0:?}")]
@@ -61,9 +59,7 @@ pub enum ErrorKind {
     #[error("Unexpected server behavior during batch upload: {0}")]
     ServerBatchProblem(&'static str),
 
-    #[error(
-        "It appears some other client is also trying to setup storage; try again later"
-    )]
+    #[error("It appears some other client is also trying to setup storage; try again later")]
     SetupRace,
 
     #[error("Client upgrade required; server storage version too new")]

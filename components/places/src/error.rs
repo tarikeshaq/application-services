@@ -4,9 +4,9 @@
 
 use crate::storage::bookmarks::BookmarkRootGuid;
 use crate::types::BookmarkType;
+use backtrace::Backtrace;
 use interrupt_support::Interrupted;
 use serde_json::Value as JsonValue;
-use backtrace::Backtrace;
 // Note: If you add new error types that should be returned to consumers on the other side of the
 // FFI, update `get_code` in `ffi.rs`
 #[derive(Debug, thiserror::Error)]
@@ -115,9 +115,7 @@ pub enum InvalidPlaceInfo {
     #[error("No such url")]
     NoSuchUrl,
 
-    #[error(
-        "Can't update a bookmark of type {0} with one of type {1}"
-    )]
+    #[error("Can't update a bookmark of type {0} with one of type {1}")]
     MismatchedBookmarkType(u8, u8),
 
     // Only returned when attempting to insert a bookmark --
@@ -128,9 +126,7 @@ pub enum InvalidPlaceInfo {
     // Like Urls, a tag is considered private info, so the value isn't in the error.
     #[error("The tag value is invalid")]
     InvalidTag,
-    #[error(
-        "Cannot change the '{0}' property of a bookmark of type {1:?}",
-    )]
+    #[error("Cannot change the '{0}' property of a bookmark of type {1:?}")]
     IllegalChange(&'static str, BookmarkType),
 
     #[error("Cannot update the bookmark root {0:?}")]
@@ -143,9 +139,7 @@ pub enum InvalidPlaceInfo {
 // into an enum value here?
 #[derive(Debug, thiserror::Error)]
 pub enum Corruption {
-    #[error(
-        "Bookmark '{0}' has a parent of '{1}' which does not exist",
-    )]
+    #[error("Bookmark '{0}' has a parent of '{1}' which does not exist")]
     NoParent(String, String),
 
     #[error("The local roots are invalid")]
@@ -154,8 +148,6 @@ pub enum Corruption {
     #[error("The synced roots are invalid")]
     InvalidSyncedRoots,
 
-    #[error(
-        "Bookmark '{0}' has no parent but is not the bookmarks root"
-    )]
+    #[error("Bookmark '{0}' has no parent but is not the bookmarks root")]
     NonRootWithoutParent(String),
 }

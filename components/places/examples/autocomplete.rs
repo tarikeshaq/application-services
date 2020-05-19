@@ -812,11 +812,14 @@ fn main() -> Result<()> {
         let import_source = if import_places_arg == "auto" {
             log::info!("Automatically locating largest places DB in your profile(s)");
             // CHANGE BACK TO ? BEFORE MERGING!!! Need to change find_places_db to use thiserror instead of failure
-            let profile_info = if let Some(info) = find_places_db::get_largest_places_db().unwrap() {
+            let profile_info = if let Some(info) = find_places_db::get_largest_places_db().unwrap()
+            {
                 info
             } else {
                 log::error!("Failed to locate your firefox profile!");
-                anyhow::bail!("--import-places=auto specified, but couldn't find a `places.sqlite`");
+                anyhow::bail!(
+                    "--import-places=auto specified, but couldn't find a `places.sqlite`"
+                );
             };
             log::info!(
                 "Using a {} places.sqlite from profile '{}' (places path = {:?})",
