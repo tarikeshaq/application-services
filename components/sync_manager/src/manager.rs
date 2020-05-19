@@ -479,7 +479,7 @@ impl CommandProcessor for SyncClient {
     fn apply_incoming_command(
         &self,
         command: Command,
-    ) -> result::Result<CommandStatus, failure::Error> {
+    ) -> result::Result<CommandStatus, anyhow::Error> {
         let result = match command {
             Command::Wipe(engine) => wipe(&engine),
             Command::WipeAll => wipe_all(),
@@ -495,7 +495,7 @@ impl CommandProcessor for SyncClient {
         }
     }
 
-    fn fetch_outgoing_commands(&self) -> result::Result<HashSet<Command>, failure::Error> {
+    fn fetch_outgoing_commands(&self) -> result::Result<HashSet<Command>, anyhow::Error> {
         Ok(HashSet::new())
     }
 }

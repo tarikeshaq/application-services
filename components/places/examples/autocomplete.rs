@@ -6,7 +6,6 @@
 #![warn(rust_2018_idioms)]
 
 use clap::value_t;
-use failure::bail;
 use places::{PlacesDb, VisitObservation, VisitTransition};
 use rusqlite::NO_PARAMS;
 use serde_derive::*;
@@ -18,7 +17,7 @@ use std::{
 };
 use url::Url;
 
-type Result<T> = std::result::Result<T, failure::Error>;
+type Result<T> = std::result::Result<T, anyhow::Error>;
 
 #[derive(Debug, Default, Serialize, Deserialize)]
 #[serde(default)]
@@ -812,11 +811,12 @@ fn main() -> Result<()> {
         };
         let import_source = if import_places_arg == "auto" {
             log::info!("Automatically locating largest places DB in your profile(s)");
-            let profile_info = if let Some(info) = find_places_db::get_largest_places_db()? {
+            // CHANGE BACK TO ? BEFORE MERGING!!! Need to change find_places_db to use thiserror instead of failure
+            let profile_info = if let Some(info) = find_places_db::get_largest_places_db().unwrap() {
                 info
             } else {
                 log::error!("Failed to locate your firefox profile!");
-                bail!("--import-places=auto specified, but couldn't find a `places.sqlite`");
+                anyhow::bail!("--import-places=auto specified, but couldn't find a `places.sqlite`");
             };
             log::info!(
                 "Using a {} places.sqlite from profile '{}' (places path = {:?})",
@@ -832,7 +832,7 @@ fn main() -> Result<()> {
         } else {
             let path = Path::new(import_places_arg);
             if !path.exists() {
-                bail!(
+                anyhow::bail!(
                     "Provided path to --import-places doesn't exist and isn't 'auto': {:?}",
                     import_places_arg
                 );

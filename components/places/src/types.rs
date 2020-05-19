@@ -2,8 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-use failure::Fail;
-use rusqlite::types::{FromSql, FromSqlError, FromSqlResult, ToSql, ToSqlOutput, ValueRef};
+ use rusqlite::types::{FromSql, FromSqlError, FromSqlResult, ToSql, ToSqlOutput, ValueRef};
 use rusqlite::Result as RusqliteResult;
 use serde::ser::{Serialize, Serializer};
 use serde_derive::*;
@@ -100,8 +99,8 @@ impl FromSql for Timestamp {
     }
 }
 
-#[derive(Fail, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-#[fail(display = "Invalid visit type")]
+#[derive(thiserror::Error, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[error("Invalid visit type")]
 pub struct InvalidVisitType;
 
 // NOTE: These discriminator values are the same as those used by Desktop

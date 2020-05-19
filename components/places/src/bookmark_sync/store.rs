@@ -932,7 +932,7 @@ impl<'a> Store for BookmarksStore<'a> {
         &self,
         inbound: Vec<IncomingChangeset>,
         telem: &mut telemetry::Engine,
-    ) -> result::Result<OutgoingChangeset, failure::Error> {
+    ) -> result::Result<OutgoingChangeset, anyhow::Error> {
         assert_eq!(inbound.len(), 1, "bookmarks only requests one item");
         let inbound = inbound.into_iter().next().unwrap();
         // Stage all incoming items.
@@ -958,7 +958,7 @@ impl<'a> Store for BookmarksStore<'a> {
         &self,
         new_timestamp: ServerTimestamp,
         records_synced: Vec<SyncGuid>,
-    ) -> result::Result<(), failure::Error> {
+    ) -> result::Result<(), anyhow::Error> {
         self.push_synced_items(new_timestamp, records_synced)?;
         self.update_frecencies()?;
         self.db.pragma_update(None, "wal_checkpoint", &"PASSIVE")?;
@@ -968,7 +968,7 @@ impl<'a> Store for BookmarksStore<'a> {
     fn get_collection_requests(
         &self,
         server_timestamp: ServerTimestamp,
-    ) -> result::Result<Vec<CollectionRequest>, failure::Error> {
+    ) -> result::Result<Vec<CollectionRequest>, anyhow::Error> {
         let since =
             ServerTimestamp(get_meta::<i64>(self.db, LAST_SYNC_META_KEY)?.unwrap_or_default());
         Ok(if since == server_timestamp {
@@ -980,7 +980,7 @@ impl<'a> Store for BookmarksStore<'a> {
         })
     }
 
-    fn get_sync_assoc(&self) -> result::Result<StoreSyncAssociation, failure::Error> {
+    fn get_sync_assoc(&self) -> result::Result<StoreSyncAssociation, anyhow::Error> {
         let global = get_meta(self.db, GLOBAL_SYNCID_META_KEY)?;
         let coll = get_meta(self.db, COLLECTION_SYNCID_META_KEY)?;
         Ok(if let (Some(global), Some(coll)) = (global, coll) {
@@ -990,7 +990,7 @@ impl<'a> Store for BookmarksStore<'a> {
         })
     }
 
-    fn reset(&self, assoc: &StoreSyncAssociation) -> result::Result<(), failure::Error> {
+    fn reset(&self, assoc: &StoreSyncAssociation) -> result::Result<(), anyhow::Error> {
         BookmarksStore::reset(self, assoc)?;
         Ok(())
     }
@@ -1001,7 +1001,7 @@ impl<'a> Store for BookmarksStore<'a> {
     ///
     /// Conceptually, the next sync will merge an empty local tree, and a full
     /// remote tree.
-    fn wipe(&self) -> result::Result<(), failure::Error> {
+    fn wipe(&self) -> result::Result<(), anyhow::Error> {
         let tx = self.db.begin_transaction()?;
         let sql = format!(
             "INSERT INTO moz_bookmarks_deleted(guid, dateRemoved)
@@ -3522,7 +3522,7 @@ mod tests {
     }
 
     #[test]
-    fn test_reset() -> result::Result<(), failure::Error> {
+    fn test_reset() -> result::Result<(), anyhow::Error> {
         let api = new_mem_api();
         let writer = api.open_connection(ConnectionType::ReadWrite)?;
 
@@ -3579,7 +3579,7 @@ mod tests {
     }
 
     #[test]
-    fn test_dedupe_local_newer() -> result::Result<(), failure::Error> {
+    fn test_dedupe_local_newer() -> result::Result<(), anyhow::Error> {
         let _ = env_logger::try_init();
 
         let api = new_mem_api();
@@ -3698,7 +3698,7 @@ mod tests {
     }
 
     #[test]
-    fn test_deduping_remote_newer() -> result::Result<(), failure::Error> {
+    fn test_deduping_remote_newer() -> result::Result<(), anyhow::Error> {
         let _ = env_logger::try_init();
 
         let api = new_mem_api();

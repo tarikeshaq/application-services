@@ -1,60 +1,68 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 /// Define a wrapper around the the provided ErrorKind type.
 /// See also `define_error` which is more likely to be what you want.
+
 #[macro_export]
 macro_rules! define_error_wrapper {
     ($Kind:ty) => {
-        /// Re-exported, so that using crate::error::* gives you the .context()
-        /// method, which we don't use much but should *really* use more.
-        pub use failure::ResultExt;
 
         pub type Result<T, E = Error> = std::result::Result<T, E>;
-
-        #[derive(Debug)]
-        pub struct Error(Box<failure::Context<$Kind>>);
-
-        impl failure::Fail for Error {
-            fn cause(&self) -> Option<&dyn failure::Fail> {
-                self.0.cause()
+        use std::fmt::{Display, Debug};
+        use std::fmt;
+        struct Context<T: Display + Sync + 'static> {
+            context: T,
+            backtrace: Backtrace
+        }
+        
+        impl<T: Display + Send + Sync + 'static> Context<T> {
+            fn new(context: T) -> Self {
+                Context {
+                    context,
+                    backtrace: Backtrace::new()
+                }
+            }
+        
+            fn backtrace(&self) -> Option<&Backtrace> {
+                Some(&self.backtrace)
             }
 
-            fn backtrace(&self) -> Option<&failure::Backtrace> {
-                self.0.backtrace()
-            }
-
-            fn name(&self) -> Option<&str> {
-                self.0.name()
+            fn get_context(&self) -> &T {
+                &self.context
             }
         }
 
-        impl std::fmt::Display for Error {
-            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-                std::fmt::Display::fmt(&*self.0, f)
+        impl<D: Display + Send + Sync + 'static> Debug for Context<D> {
+            fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+                write!(f, "{:?}\n\n{}",self.backtrace, self.context)
             }
         }
 
+        #[derive(Debug, thiserror::Error)]
+        pub struct Error(Box<Context<$Kind>>);
         impl Error {
             pub fn kind(&self) -> &$Kind {
                 &*self.0.get_context()
             }
+
+            pub fn backtrace(&self) -> Option<&Backtrace> {
+                self.0.backtrace()
+            }
         }
 
-        impl From<failure::Context<$Kind>> for Error {
-            // Cold to optimize in favor of non-error cases.
-            #[cold]
-            fn from(ctx: failure::Context<$Kind>) -> Error {
-                Error(Box::new(ctx))
+
+        impl Display for Error {
+            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                std::fmt::Display::fmt(&*self.0.get_context(), f)
             }
         }
 
         impl From<$Kind> for Error {
             // Cold to optimize in favor of non-error cases.
             #[cold]
-            fn from(kind: $Kind) -> Self {
-                Error(Box::new(failure::Context::new(kind)))
+            fn from(ctx: $Kind) -> Error {
+                Error(Box::new(Context::new(ctx)))
             }
         }
     };

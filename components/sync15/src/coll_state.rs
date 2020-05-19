@@ -230,7 +230,7 @@ mod tests {
             &self,
             _inbound: Vec<IncomingChangeset>,
             _telem: &mut telemetry::Engine,
-        ) -> Result<OutgoingChangeset, failure::Error> {
+        ) -> Result<OutgoingChangeset, anyhow::Error> {
             unreachable!("these tests shouldn't call these");
         }
 
@@ -238,28 +238,28 @@ mod tests {
             &self,
             _new_timestamp: ServerTimestamp,
             _records_synced: Vec<Guid>,
-        ) -> Result<(), failure::Error> {
+        ) -> Result<(), anyhow::Error> {
             unreachable!("these tests shouldn't call these");
         }
 
         fn get_collection_requests(
             &self,
             _server_timestamp: ServerTimestamp,
-        ) -> Result<Vec<CollectionRequest>, failure::Error> {
+        ) -> Result<Vec<CollectionRequest>, anyhow::Error> {
             unreachable!("these tests shouldn't call these");
         }
 
-        fn get_sync_assoc(&self) -> Result<StoreSyncAssociation, failure::Error> {
+        fn get_sync_assoc(&self) -> Result<StoreSyncAssociation, anyhow::Error> {
             Ok(self.assoc.replace(StoreSyncAssociation::Disconnected))
         }
 
-        fn reset(&self, new_assoc: &StoreSyncAssociation) -> Result<(), failure::Error> {
+        fn reset(&self, new_assoc: &StoreSyncAssociation) -> Result<(), anyhow::Error> {
             self.assoc.replace(new_assoc.clone());
             *self.num_resets.borrow_mut() += 1;
             Ok(())
         }
 
-        fn wipe(&self) -> Result<(), failure::Error> {
+        fn wipe(&self) -> Result<(), anyhow::Error> {
             unreachable!("these tests shouldn't call these");
         }
     }

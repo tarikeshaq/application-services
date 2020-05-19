@@ -366,7 +366,7 @@ mod tests {
         fn apply_incoming_command(
             &self,
             command: Command,
-        ) -> result::Result<CommandStatus, failure::Error> {
+        ) -> result::Result<CommandStatus, anyhow::Error> {
             Ok(if let Command::Reset(name) = command {
                 if name == "forms" {
                     CommandStatus::Unsupported
@@ -378,7 +378,7 @@ mod tests {
             })
         }
 
-        fn fetch_outgoing_commands(&self) -> result::Result<HashSet<Command>, failure::Error> {
+        fn fetch_outgoing_commands(&self) -> result::Result<HashSet<Command>, anyhow::Error> {
             Ok(self.outgoing_commands.clone())
         }
     }

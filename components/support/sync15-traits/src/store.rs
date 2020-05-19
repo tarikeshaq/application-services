@@ -6,7 +6,7 @@ use crate::{
     client::ClientData, telemetry, CollectionRequest, Guid, IncomingChangeset, OutgoingChangeset,
     ServerTimestamp,
 };
-use failure::Error;
+use anyhow::Error;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct CollSyncIds {
