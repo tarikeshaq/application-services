@@ -197,6 +197,14 @@ the details of which are reproduced below.
     <url>https://github.com/dtolnay/syn/blob/master/LICENSE-APACHE</url>
   </license>
   <license>
+    <name>Apache License 2.0: thiserror</name>
+    <url>https://github.com/dtolnay/thiserror/blob/master/LICENSE-APACHE</url>
+  </license>
+  <license>
+    <name>Apache License 2.0: thiserror-impl</name>
+    <url>https://github.com/dtolnay/thiserror/blob/master/LICENSE-APACHE</url>
+  </license>
+  <license>
     <name>Apache License 2.0: time</name>
     <url>https://github.com/time-rs/time/blob/master/LICENSE-Apache</url>
   </license>

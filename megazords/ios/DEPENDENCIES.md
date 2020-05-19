@@ -495,6 +495,8 @@ The following text applies to code linked from these dependencies:
 [swift-protobuf](https://github.com/apple/swift-protobuf),
 [syn](https://github.com/dtolnay/syn),
 [tempfile](https://github.com/Stebalien/tempfile),
+[thiserror-impl](https://github.com/dtolnay/thiserror),
+[thiserror](https://github.com/dtolnay/thiserror),
 [thread_local](https://github.com/Amanieu/thread_local-rs),
 [time](https://github.com/time-rs/time),
 [unicase](https://github.com/seanmonstar/unicase),

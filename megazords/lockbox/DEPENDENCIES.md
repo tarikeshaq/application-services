@@ -449,6 +449,8 @@ The following text applies to code linked from these dependencies:
 [serde_json](https://github.com/serde-rs/json),
 [smallvec](https://github.com/servo/rust-smallvec),
 [syn](https://github.com/dtolnay/syn),
+[thiserror-impl](https://github.com/dtolnay/thiserror),
+[thiserror](https://github.com/dtolnay/thiserror),
 [time](https://github.com/time-rs/time),
 [unicode-bidi](https://github.com/servo/unicode-bidi),
 [unicode-normalization](https://github.com/unicode-rs/unicode-normalization),

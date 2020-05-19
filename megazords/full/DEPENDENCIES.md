@@ -455,6 +455,8 @@ The following text applies to code linked from these dependencies:
 [smallbitvec](https://github.com/servo/smallbitvec),
 [smallvec](https://github.com/servo/rust-smallvec),
 [syn](https://github.com/dtolnay/syn),
+[thiserror-impl](https://github.com/dtolnay/thiserror),
+[thiserror](https://github.com/dtolnay/thiserror),
 [thread_local](https://github.com/Amanieu/thread_local-rs),
 [time](https://github.com/time-rs/time),
 [unicode-bidi](https://github.com/servo/unicode-bidi),
