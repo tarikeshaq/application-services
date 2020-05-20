@@ -33,22 +33,22 @@ pub enum ErrorKind {
     InvalidSalt,
 
     #[error("Error synchronizing: {0}")]
-    SyncAdapterError(#[source] sync15::Error),
+    SyncAdapterError(#[from] sync15::Error),
 
     #[error("Error parsing JSON data: {0}")]
-    JsonError(#[source] serde_json::Error),
+    JsonError(#[from] serde_json::Error),
 
     #[error("Error executing SQL: {0}")]
-    SqlError(#[source] rusqlite::Error),
+    SqlError(#[from] rusqlite::Error),
 
     #[error("Error parsing URL: {0}")]
-    UrlParseError(#[source] url::ParseError),
+    UrlParseError(#[from] url::ParseError),
 
     #[error("{0}")]
-    Interrupted(#[source] interrupt_support::Interrupted),
+    Interrupted(#[from] interrupt_support::Interrupted),
 
     #[error("Protobuf decode error: {0}")]
-    ProtobufDecodeError(#[source] prost::DecodeError),
+    ProtobufDecodeError(#[from] prost::DecodeError),
 }
 
 error_support::define_error! {

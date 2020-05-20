@@ -19,10 +19,10 @@ pub enum ErrorKind {
     QuotaError(QuotaReason),
 
     #[error("Error parsing JSON data: {0}")]
-    JsonError(#[source] serde_json::Error),
+    JsonError(#[from] serde_json::Error),
 
     #[error("Error executing SQL: {0}")]
-    SqlError(#[source] rusqlite::Error),
+    SqlError(#[from] rusqlite::Error),
 
     #[error("A connection of this type is already open")]
     ConnectionAlreadyOpen,
@@ -31,10 +31,10 @@ pub enum ErrorKind {
     InvalidConnectionType,
 
     #[error("IO error: {0}")]
-    IoError(#[source] std::io::Error),
+    IoError(#[from] std::io::Error),
 
     #[error("Operation interrupted")]
-    InterruptedError(#[source] Interrupted),
+    InterruptedError(#[from] Interrupted),
 
     #[error("Tried to close connection on wrong StorageApi instance")]
     WrongApiForClose,
@@ -46,7 +46,7 @@ pub enum ErrorKind {
     IllegalDatabasePath(std::path::PathBuf),
 
     #[error("UTF8 Error: {0}")]
-    Utf8Error(#[source] std::str::Utf8Error),
+    Utf8Error(#[from] std::str::Utf8Error),
 
     #[error("Database cannot be upgraded")]
     DatabaseUpgradeError,
@@ -55,7 +55,7 @@ pub enum ErrorKind {
     UnsupportedDatabaseVersion(i64),
 
     #[error("{0}")]
-    IncomingPayloadError(#[source] bridged_engine::PayloadError),
+    IncomingPayloadError(#[from] bridged_engine::PayloadError),
 }
 
 error_support::define_error! {

@@ -18,19 +18,19 @@ pub enum ErrorKind {
     Corruption(Corruption),
 
     #[error("Error synchronizing: {0}")]
-    SyncAdapterError(#[source] sync15::Error),
+    SyncAdapterError(#[from] sync15::Error),
 
     #[error("Error merging: {0}")]
-    MergeError(#[source] dogear::Error),
+    MergeError(#[from] dogear::Error),
 
     #[error("Error parsing JSON data: {0}")]
-    JsonError(#[source] serde_json::Error),
+    JsonError(#[from] serde_json::Error),
 
     #[error("Error executing SQL: {0}")]
-    SqlError(#[source] rusqlite::Error),
+    SqlError(#[from] rusqlite::Error),
 
     #[error("Error parsing URL: {0}")]
-    UrlParseError(#[source] url::ParseError),
+    UrlParseError(#[from] url::ParseError),
 
     #[error("A connection of this type is already open")]
     ConnectionAlreadyOpen,
@@ -39,10 +39,10 @@ pub enum ErrorKind {
     InvalidConnectionType,
 
     #[error("IO error: {0}")]
-    IoError(#[source] std::io::Error),
+    IoError(#[from] std::io::Error),
 
     #[error("Operation interrupted")]
-    InterruptedError(#[source] Interrupted),
+    InterruptedError(#[from] Interrupted),
 
     #[error("Tried to close connection on wrong PlacesApi instance")]
     WrongApiForClose,
@@ -66,10 +66,10 @@ pub enum ErrorKind {
     IllegalDatabasePath(std::path::PathBuf),
 
     #[error("Protobuf decode error: {0}")]
-    ProtobufDecodeError(#[source] prost::DecodeError),
+    ProtobufDecodeError(#[from] prost::DecodeError),
 
     #[error("UTF8 Error: {0}")]
-    Utf8Error(#[source] std::str::Utf8Error),
+    Utf8Error(#[from] std::str::Utf8Error),
 
     #[error("Database cannot be upgraded")]
     DatabaseUpgradeError,

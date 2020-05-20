@@ -6,16 +6,16 @@ use backtrace::Backtrace;
 #[derive(Debug, thiserror::Error)]
 pub enum ErrorKind {
     #[error("Error synchronizing: {0}")]
-    SyncAdapterError(#[source] sync15::Error),
+    SyncAdapterError(#[from] sync15::Error),
 
     #[error("Error parsing JSON data: {0}")]
-    JsonError(#[source] serde_json::Error),
+    JsonError(#[from] serde_json::Error),
 
     #[error("Error parsing URL: {0}")]
-    UrlParseError(#[source] url::ParseError),
+    UrlParseError(#[from] url::ParseError),
 
     #[error("Protobuf decode error: {0}")]
-    ProtobufDecodeError(#[source] prost::DecodeError),
+    ProtobufDecodeError(#[from] prost::DecodeError),
 }
 
 error_support::define_error! {

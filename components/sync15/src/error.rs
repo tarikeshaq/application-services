@@ -72,35 +72,35 @@ pub enum ErrorKind {
     SetupRequired,
 
     #[error("Store error: {0}")]
-    StoreError(#[source] anyhow::Error),
+    StoreError(#[from] anyhow::Error),
 
     #[error("Crypto/NSS error: {0}")]
-    CryptoError(#[source] rc_crypto::Error),
+    CryptoError(#[from] rc_crypto::Error),
 
     #[error("Base64 decode error: {0}")]
-    Base64Decode(#[source] base64::DecodeError),
+    Base64Decode(#[from] base64::DecodeError),
 
     #[error("JSON error: {0}")]
-    JsonError(#[source] serde_json::Error),
+    JsonError(#[from] serde_json::Error),
 
     #[error("Bad cleartext UTF8: {0}")]
-    BadCleartextUtf8(#[source] string::FromUtf8Error),
+    BadCleartextUtf8(#[from] string::FromUtf8Error),
 
     #[error("Network error: {0}")]
-    RequestError(#[source] viaduct::Error),
+    RequestError(#[from] viaduct::Error),
 
     #[error("Unexpected HTTP status: {0}")]
-    UnexpectedStatus(#[source] viaduct::UnexpectedStatus),
+    UnexpectedStatus(#[from] viaduct::UnexpectedStatus),
 
-    // BRING BACK #[source] BEFORE MERGING!!! Needs hawk::Error to use thiserror
+    // BRING BACK #[from] BEFORE MERGING!!! Needs hawk::Error to use thiserror
     #[error("HAWK error: {0}")]
     HawkError(hawk::Error),
 
     #[error("URL parse error: {0}")]
-    MalformedUrl(#[source] url::ParseError),
+    MalformedUrl(#[from] url::ParseError),
 
     #[error("The operation was interrupted.")]
-    Interrupted(#[source] Interrupted),
+    Interrupted(#[from] Interrupted),
 }
 
 error_support::define_error! {

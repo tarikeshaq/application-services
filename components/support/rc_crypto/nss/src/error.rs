@@ -11,9 +11,9 @@ pub enum ErrorKind {
     #[error("Internal crypto error")]
     InternalError,
     #[error("Conversion error: {0}")]
-    ConversionError(#[source] std::num::TryFromIntError),
+    ConversionError(#[from] std::num::TryFromIntError),
     #[error("Base64 decode error: {0}")]
-    Base64Decode(#[source] base64::DecodeError),
+    Base64Decode(#[from] base64::DecodeError),
 }
 
 error_support::define_error! {

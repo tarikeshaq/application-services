@@ -114,42 +114,42 @@ pub enum ErrorKind {
 
     // Basically reimplement error_chain's foreign_links. (Ugh, this sucks).
     #[error("Crypto/NSS error: {0}")]
-    CryptoError(#[source] rc_crypto::Error),
+    CryptoError(#[from] rc_crypto::Error),
 
-    // BRING BACK #[source] BEFORE MERGING!!! Needs ece::Error to use thiserror instead of failure
+    // BRING BACK #[from] BEFORE MERGING!!! Needs ece::Error to use thiserror instead of failure
     #[error("http-ece encryption error: {0}")]
     EceError(rc_crypto::ece::Error),
 
     #[error("Hex decode error: {0}")]
-    HexDecodeError(#[source] hex::FromHexError),
+    HexDecodeError(#[from] hex::FromHexError),
 
     #[error("Base64 decode error: {0}")]
-    Base64Decode(#[source] base64::DecodeError),
+    Base64Decode(#[from] base64::DecodeError),
 
     #[error("JSON error: {0}")]
-    JsonError(#[source] serde_json::Error),
+    JsonError(#[from] serde_json::Error),
 
     #[error("UTF8 decode error: {0}")]
-    UTF8DecodeError(#[source] string::FromUtf8Error),
+    UTF8DecodeError(#[from] string::FromUtf8Error),
 
     #[error("Network error: {0}")]
-    RequestError(#[source] viaduct::Error),
+    RequestError(#[from] viaduct::Error),
 
     #[error("Malformed URL error: {0}")]
-    MalformedUrl(#[source] url::ParseError),
+    MalformedUrl(#[from] url::ParseError),
 
     #[error("Unexpected HTTP status: {0}")]
-    UnexpectedStatus(#[source] viaduct::UnexpectedStatus),
+    UnexpectedStatus(#[from] viaduct::UnexpectedStatus),
 
     #[error("Sync15 error: {0}")]
-    SyncError(#[source] sync15::Error),
+    SyncError(#[from] sync15::Error),
 
-    // BRING #[source] BACK BEFORE MERGING!!!! Needs hawk::Error to use thiserror instead of failure
+    // BRING #[from] BACK BEFORE MERGING!!!! Needs hawk::Error to use thiserror instead of failure
     #[error("HAWK error: {0}")]
     HawkError(hawk::Error),
 
     #[error("Protobuf decode error: {0}")]
-    ProtobufDecodeError(#[source] prost::DecodeError),
+    ProtobufDecodeError(#[from] prost::DecodeError),
 }
 
 error_support::define_error! {

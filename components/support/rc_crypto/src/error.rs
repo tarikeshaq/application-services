@@ -6,11 +6,11 @@ use backtrace::Backtrace;
 #[derive(Debug, thiserror::Error)]
 pub enum ErrorKind {
     #[error("NSS error: {0}")]
-    NSSError(#[source] nss::Error),
+    NSSError(#[from] nss::Error),
     #[error("Internal crypto error")]
     InternalError,
     #[error("Conversion error: {0}")]
-    ConversionError(#[source] std::num::TryFromIntError),
+    ConversionError(#[from] std::num::TryFromIntError),
 }
 
 error_support::define_error! {

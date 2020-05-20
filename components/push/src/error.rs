@@ -47,7 +47,7 @@ pub enum ErrorKind {
 
     /// A failure to encode data to/from storage.
     #[error("Error executing SQL: {0}")]
-    StorageSqlError(#[source] rusqlite::Error),
+    StorageSqlError(#[from] rusqlite::Error),
 
     #[error("Missing Registration Token")]
     MissingRegistrationTokenError,
@@ -57,7 +57,7 @@ pub enum ErrorKind {
 
     /// A failure to parse a URL.
     #[error("URL parse error: {0:?}")]
-    UrlParseError(#[source] url::ParseError),
+    UrlParseError(#[from] url::ParseError),
 }
 
 // Note, be sure to duplicate errors in the Kotlin side
