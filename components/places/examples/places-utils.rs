@@ -26,7 +26,7 @@ use sync15::{
 };
 use url::Url;
 
-type Result<T> = std::result::Result<T, anyhow::Error>;
+use anyhow::Result;
 
 fn init_logging() {
     // Explicitly ignore some rather noisy crates. Turn on trace for everyone else.

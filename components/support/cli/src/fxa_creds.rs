@@ -14,7 +14,7 @@ use std::{
 use sync15::{KeyBundle, Sync15StorageClientInit};
 use url::Url;
 
-type Result<T> = std::result::Result<T, anyhow::Error>;
+use anyhow::Result;
 
 // Defaults - not clear they are the best option, but they are a currently
 // working option.

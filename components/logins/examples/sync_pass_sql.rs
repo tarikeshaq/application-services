@@ -16,7 +16,7 @@ use sync15::StoreSyncAssociation;
 use sync_guid::Guid;
 
 // I'm completely punting on good error handling here.
-type Result<T> = std::result::Result<T, anyhow::Error>;
+use anyhow::Result;
 
 fn read_login() -> Login {
     let username = prompt_string("username").unwrap_or_default();

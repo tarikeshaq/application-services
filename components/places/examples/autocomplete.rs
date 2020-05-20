@@ -17,7 +17,7 @@ use std::{
 };
 use url::Url;
 
-type Result<T> = std::result::Result<T, anyhow::Error>;
+use anyhow::Result;
 
 #[derive(Debug, Default, Serialize, Deserialize)]
 #[serde(default)]
