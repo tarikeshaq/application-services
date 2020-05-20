@@ -66,9 +66,9 @@ macro_rules! define_error_wrapper {
     };
 }
 
-// Define a conversion from external error types into the provided
-// error kind. Use `define_error` to do this at the same time as
-// `define_error_wrapper`.
+/// Define a conversion from external error types into the provided
+/// error kind. Use `define_error` to do this at the same time as
+/// `define_error_wrapper`.
 #[macro_export]
 macro_rules! define_error_conversions {
     ($Kind:ident { $(($variant:ident, $type:ty)),* $(,)? }) => ($(
