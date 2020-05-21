@@ -92,9 +92,8 @@ pub enum ErrorKind {
     #[error("Unexpected HTTP status: {0}")]
     UnexpectedStatus(#[from] viaduct::UnexpectedStatus),
 
-    // BRING BACK #[from] BEFORE MERGING!!! Needs hawk::Error to use thiserror
     #[error("HAWK error: {0}")]
-    HawkError(hawk::Error),
+    HawkError(#[from] hawk::Error),
 
     #[error("URL parse error: {0}")]
     MalformedUrl(#[from] url::ParseError),

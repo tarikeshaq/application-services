@@ -144,9 +144,8 @@ pub enum ErrorKind {
     #[error("Sync15 error: {0}")]
     SyncError(#[from] sync15::Error),
 
-    // BRING #[from] BACK BEFORE MERGING!!!! Needs hawk::Error to use thiserror instead of failure
     #[error("HAWK error: {0}")]
-    HawkError(hawk::Error),
+    HawkError(#[from] hawk::Error),
 
     #[error("Protobuf decode error: {0}")]
     ProtobufDecodeError(#[from] prost::DecodeError),
