@@ -116,9 +116,8 @@ pub enum ErrorKind {
     #[error("Crypto/NSS error: {0}")]
     CryptoError(#[from] rc_crypto::Error),
 
-    // BRING BACK #[from] BEFORE MERGING!!! Needs ece::Error to use thiserror instead of failure
     #[error("http-ece encryption error: {0}")]
-    EceError(rc_crypto::ece::Error),
+    EceError(#[from] rc_crypto::ece::Error),
 
     #[error("Hex decode error: {0}")]
     HexDecodeError(#[from] hex::FromHexError),

@@ -16,7 +16,7 @@ error-support = { path = "../../error" }
 nss_sys = { path = "nss_sys" }
 serde = "1"
 serde_derive = "1"
-backtrace = "0.3.48"
+backtrace = "0.3"
 
 [features]
 default = []

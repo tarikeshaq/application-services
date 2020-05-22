@@ -22,7 +22,7 @@ sql-support = { path = "../support/sql" }
 sync15-traits = {path = "../support/sync15-traits"}
 sync-guid = { path = "../support/guid", features = ["rusqlite_support", "random"] }
 url = { version = "2.1", features = ["serde"] }
-backtrace = "0.3.48"
+backtrace = "0.3"
 
 [dependencies.rusqlite]
 version = "0.23.1"

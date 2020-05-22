@@ -24,7 +24,7 @@ interrupt-support = { path = "../support/interrupt" }
 sync-guid = { path = "../support/guid", features = ["random"] }
 thiserror = "1.0"
 anyhow = "1.0"
-backtrace = "0.3.48"
+backtrace = "0.3"
 
 [dev-dependencies]
 clipboard = "0.5"
