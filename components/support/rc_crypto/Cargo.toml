@@ -16,8 +16,7 @@ error-support = { path = "../error" }
 nss = { path = "nss" }
 libsqlite3-sys = { version = "0.18.0", features = ["bundled"] }
 hawk = { version = "3.2", default-features = false, optional = true }
-# Flip this to 0.2.0 before merging!!!! (once it's published)
-ece = { git = "https://github.com/mozilla/rust-ece", default-features = false, features = ["serializable-keys"], optional = true }
+ece = { version = "1.2" , default-features = false, features = ["serializable-keys"], optional = true }
 backtrace = "0.3"
 
 [dev-dependencies]
