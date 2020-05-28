@@ -31,8 +31,16 @@ abspath () { case "${1}" in /*)printf "%s\\n" "${1}";; *)printf "%s\\n" "${PWD}/
 export -f abspath
 
 if ! [[ -x "$(command -v gyp)" ]]; then
-  echo 'Error: gyp needs to be installed and executable. See https://github.com/mogemimi/pomdog/wiki/How-to-Install-GYP for install instructions.' >&2
-  exit 1
+  if [[ "$A_S_AUTO_INSTALL" == 1 ]]; then
+    echo "Auto installing gyp...."
+    wget https://bootstrap.pypa.io/ez_setup.py -O - | python - --user
+    git clone https://chromium.googlesource.com/external/gyp.git ../build/gyp
+    python ../build/gyp/setup.py install
+  else
+    echo 'Error: gyp needs to be installed and executable. See https://github.com/mogemimi/pomdog/wiki/How-to-Install-GYP for install instructions.' >&2
+    echo 'If you want us to auto install it for you, set the A_S_AUTO_INSTALL environment variable to 1 and re run the script'
+    exit 1
+  
 fi
 
 if ! [[ -x "$(command -v ninja)" ]]; then
