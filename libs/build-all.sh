@@ -40,7 +40,7 @@ if ! [[ -x "$(command -v gyp)" ]]; then
     echo 'Error: gyp needs to be installed and executable. See https://github.com/mogemimi/pomdog/wiki/How-to-Install-GYP for install instructions.' >&2
     echo 'If you want us to auto install it for you, set the A_S_AUTO_INSTALL environment variable to 1 and re run the script'
     exit 1
-  
+  fi
 fi
 
 if ! [[ -x "$(command -v ninja)" ]]; then
