@@ -1,0 +1,47 @@
+name: Rust
+
+on:
+  push:
+    branches: cargo-update-pr-test
+    
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+    - name: Install nightly
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        override: true
+    - name: Update
+      run: |
+        cargo update
+        ./tools/regenerate_dependency_summaries.sh
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v2.8.0
+      with:
+        # GITHUB_TOKEN or a repo scoped PAT
+        token: ${{ secrets.CARGO_UPDATE_TOKEN }}
+        # The message to use when committing changes.
+        commit-message: Runs cargo update and updating dependency summaries - ${{steps.date.outputs.date}}
+        # The committer name and email address.
+        committer: Tarik Eshaq <teshaq@mozilla.com>
+        # The author name and email address.
+        author: Tarik Eshaq <teshaq@mozilla.com>
+        # The title of the pull request.
+        title: Cargo update - ${{steps.date.outputs.date}} [ci full]
+        # Create the pull request in the parent repository of the checked out fork.
+        request-to-parent: false # Change this to true before openning pull request to merge this file
+        branch: cargo-update-${{steps.date.outputs.date}}
+        # The pull request base branch.
+        base: master
+        # The branch suffix type.
